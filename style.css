@@ -1877,3 +1877,348 @@ button {
   }
 }
 
+/* =========================================
+   PORTOPEDIA — EDITORIAL VECTOR REDESIGN
+   Global design foundation
+   ========================================= */
+
+:root {
+  --paper: #F6F1E7;
+  --paper-light: #FFFCF6;
+  --ink: #25251F;
+  --muted: #706F66;
+  --line: #DED8CB;
+  --blue: #2455E8;
+  --blue-dark: #183DB4;
+  --blue-light: #E7EDFF;
+  --orange: #F47738;
+  --orange-light: #FFE7D8;
+  --green: #287A53;
+  --radius-card: 18px;
+  --radius-control: 10px;
+  --shadow-card: 0 8px 28px rgba(37, 37, 31, 0.055);
+  --shadow-hover: 0 14px 36px rgba(37, 37, 31, 0.10);
+}
+
+/* Page and typography */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--blue);
+  color: white;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--ink);
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+}
+
+p {
+  line-height: 1.7;
+}
+
+a {
+  transition: color 180ms ease;
+}
+
+a:not(.button):hover {
+  color: var(--blue);
+}
+
+/* Header and navigation */
+
+header,
+.site-header,
+.header {
+  border-bottom: 1px solid var(--line);
+}
+
+.header-actions {
+  align-items: center;
+  gap: 12px;
+}
+
+.signed-in-label {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Buttons */
+
+button,
+.button,
+input[type="submit"] {
+  font: inherit;
+}
+
+.button,
+button.button,
+button[type="submit"] {
+  border-radius: var(--radius-control);
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.button:not(:disabled):hover,
+button.button:not(:disabled):hover,
+button[type="submit"]:not(:disabled):hover {
+  transform: translateY(-2px);
+}
+
+.button-primary,
+.button:not(.button-secondary):not(.button-small) {
+  background-color: var(--blue);
+  border-color: var(--blue);
+  color: #FFFFFF;
+}
+
+.button-primary:hover,
+.button:not(.button-secondary):not(.button-small):hover {
+  background-color: var(--blue-dark);
+  border-color: var(--blue-dark);
+}
+
+.button-secondary {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.button-secondary:hover {
+  background: var(--paper-light);
+  border-color: var(--blue);
+}
+
+.button-small {
+  border-radius: 8px;
+}
+
+button:disabled,
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+/* Creator directory */
+
+#creatorGrid {
+  gap: 20px;
+}
+
+.creator-card {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--paper-light);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease,
+    border-color 200ms ease;
+}
+
+.creator-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(36, 85, 232, 0.35);
+  box-shadow: var(--shadow-hover);
+}
+
+.creator-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.35rem;
+}
+
+.creator-card p {
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+
+#creatorFilters [data-filter] {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper-light);
+  color: var(--ink);
+  transition: all 180ms ease;
+}
+
+#creatorFilters [data-filter]:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+#creatorFilters [data-filter].active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: white;
+}
+
+#creatorSearch {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--paper-light);
+  color: var(--ink);
+}
+
+#creatorSearch:focus {
+  border-color: var(--blue);
+  outline: 3px solid rgba(36, 85, 232, 0.14);
+}
+
+/* Account dialog */
+
+#accountDialog {
+  max-width: min(92vw, 520px);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--paper-light);
+  color: var(--ink);
+  box-shadow: 0 24px 90px rgba(20, 25, 45, 0.22);
+}
+
+#accountDialog::backdrop {
+  background: rgba(31, 32, 38, 0.58);
+  backdrop-filter: blur(5px);
+}
+
+#accountDialog input,
+#accountDialog select,
+#accountDialog textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: #FFFFFF;
+  color: var(--ink);
+}
+
+#accountDialog input:focus,
+#accountDialog select:focus,
+#accountDialog textarea:focus {
+  border-color: var(--blue);
+  outline: 3px solid rgba(36, 85, 232, 0.13);
+}
+
+/* Portfolio editor */
+
+#portfolioEditor {
+  color: var(--ink);
+}
+
+#portfolioEditor .editor-panel,
+#portfolioEditor .portfolio-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--paper-light);
+  box-shadow: var(--shadow-card);
+}
+
+#portfolioEditor input,
+#portfolioEditor select,
+#portfolioEditor textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+#portfolioEditor input:focus,
+#portfolioEditor select:focus,
+#portfolioEditor textarea:focus {
+  border-color: var(--blue);
+  outline: 3px solid rgba(36, 85, 232, 0.13);
+}
+
+#portfolioEditor label {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+#portfolioEditor input[type="checkbox"] {
+  width: auto;
+  accent-color: var(--blue);
+}
+
+#editorStatus[data-state="success"] {
+  color: var(--green);
+}
+
+#editorStatus[data-state="error"] {
+  color: #B9382C;
+}
+
+.saved-project-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper-light);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.saved-project-card:hover {
+  border-color: rgba(36, 85, 232, 0.35);
+  box-shadow: var(--shadow-card);
+}
+
+.saved-project-category {
+  color: var(--blue);
+  font-weight: 700;
+}
+
+/* Keyboard focus and reduced motion */
+
+:focus-visible {
+  outline: 3px solid rgba(36, 85, 232, 0.65);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Small screens */
+
+@media (max-width: 640px) {
+  .creator-card {
+    padding: 18px;
+  }
+
+  .header-actions {
+    flex-wrap: wrap;
+  }
+
+  #accountDialog {
+    padding: 22px;
+  }
+}
+
