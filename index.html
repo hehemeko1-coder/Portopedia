@@ -340,5 +340,69 @@
     <p>Your work deserves a place in the world.</p>
     <span class="footer-copy">© 2026 Portopedia · Built for creative people.</span>
   </footer>
+  
+  <dialog class="account-dialog" id="accountDialog" aria-labelledby="accountTitle">
+    <div class="account-dialog-header">
+      <a class="brand" href="#" aria-label="Portopedia home">
+        <span class="brand-mark">P</span>
+        <span>portopedia<span class="brand-period">.</span></span>
+      </a>
+      <button class="account-close" id="closeAccountDialog"
+        type="button" aria-label="Close account dialog">×</button>
+    </div>
+
+    <div class="account-dialog-content">
+      <p class="section-kicker" id="accountEyebrow">YOUR NEXT CHAPTER</p>
+      <h2 id="accountTitle">Create your account<span>.</span></h2>
+      <p id="accountDescription">Make a home for your best work.</p>
+
+      <div class="account-tabs" role="group" aria-label="Account options">
+        <button type="button" id="showRegister" class="account-tab active">
+          Create account
+        </button>
+        <button type="button" id="showLogin" class="account-tab">
+          Sign in
+        </button>
+      </div>
+
+      <form id="registerForm">
+        <label for="registerUsername">Username</label>
+        <input id="registerUsername" name="username" type="text"
+          minlength="3" maxlength="30" autocomplete="username"
+          placeholder="Choose a username" required>
+
+        <label for="registerEmail">Email</label>
+        <input id="registerEmail" name="email" type="email"
+          autocomplete="email" placeholder="you@example.com" required>
+
+        <label for="registerPassword">Password</label>
+        <input id="registerPassword" name="password" type="password"
+          minlength="8" autocomplete="new-password"
+          placeholder="At least 8 characters" required>
+
+        <button class="button account-submit" type="submit">
+          Create my account <span>↗</span>
+        </button>
+      </form>
+
+      <form id="loginForm" hidden>
+        <label for="loginEmail">Email or username</label>
+        <input id="loginEmail" name="identifier" type="text"
+          autocomplete="username" placeholder="Your email or username" required>
+
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" name="password" type="password"
+          autocomplete="current-password" placeholder="Your password" required>
+
+        <button class="button account-submit" type="submit">
+          Sign in <span>↗</span>
+        </button>
+      </form>
+
+      <p class="account-message" id="accountMessage" role="status"
+        aria-live="polite"></p>
+      <p class="account-privacy">Your account details stay private.</p>
+    </div>
+  </dialog>
 </body>
 </html>
