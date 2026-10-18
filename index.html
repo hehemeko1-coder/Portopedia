@@ -330,6 +330,192 @@
         Account creation is coming in the next development phase.
       </p>
     </section>
+    
+<section class="portfolio-editor section" id="portfolioEditor" hidden>
+  <div class="editor-top">
+    <div>
+      <p class="section-kicker">YOUR CREATIVE SPACE</p>
+      <h2>Build your portfolio<span>.</span></h2>
+      <p class="section-description">
+        Tell your story, show your work, and make it yours.
+      </p>
+    </div>
+    <button class="button button-small" id="backToHome" type="button">
+      ← Back to home
+    </button>
+  </div>
+
+  <div class="editor-status" id="editorStatus" role="status"
+    aria-live="polite"></div>
+
+  <form id="portfolioForm" class="editor-panel">
+    <div class="editor-panel-heading">
+      <span class="step-number">01</span>
+      <div>
+        <h3>Your profile</h3>
+        <p>This is how people will get to know you.</p>
+      </div>
+    </div>
+
+    <div class="editor-fields">
+      <div class="editor-field">
+        <label for="portfolioDisplayName">Display name</label>
+        <input id="portfolioDisplayName" name="display_name"
+          maxlength="80" placeholder="Your name" required>
+      </div>
+
+      <div class="editor-field">
+        <label for="portfolioHeadline">Professional headline</label>
+        <input id="portfolioHeadline" name="headline"
+          maxlength="160" placeholder="e.g. Designer and creative developer">
+      </div>
+
+      <div class="editor-field editor-field-full">
+        <label for="portfolioBio">About you</label>
+        <textarea id="portfolioBio" name="bio" maxlength="3000"
+          rows="5" placeholder="Your story, interests, experience, and what you create..."></textarea>
+      </div>
+
+      <div class="editor-field">
+        <label for="portfolioCategory">Main category</label>
+        <select id="portfolioCategory" name="category">
+          <option value="Design">Design</option>
+          <option value="Development">Development</option>
+          <option value="Photography">Photography</option>
+          <option value="Writing">Writing</option>
+          <option value="Music">Music</option>
+          <option value="Film">Film</option>
+          <option value="Art">Art</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="editor-field">
+        <label for="portfolioSkills">Skills</label>
+        <input id="portfolioSkills" name="skills"
+          placeholder="Design, JavaScript, photography">
+        <small>Separate each skill with a comma.</small>
+      </div>
+    </div>
+
+    <div class="editor-panel-heading editor-subheading">
+      <span class="step-number">02</span>
+      <div>
+        <h3>Find me elsewhere</h3>
+        <p>Optional links to your other work and profiles.</p>
+      </div>
+    </div>
+
+    <div class="editor-fields">
+      <div class="editor-field">
+        <label for="socialWebsite">Website</label>
+        <input id="socialWebsite" type="url" placeholder="https://example.com">
+      </div>
+
+      <div class="editor-field">
+        <label for="socialGithub">GitHub</label>
+        <input id="socialGithub" type="url" placeholder="https://github.com/username">
+      </div>
+
+      <div class="editor-field">
+        <label for="socialLinkedin">LinkedIn</label>
+        <input id="socialLinkedin" type="url" placeholder="https://linkedin.com/in/username">
+      </div>
+
+      <div class="editor-field">
+        <label for="socialInstagram">Instagram</label>
+        <input id="socialInstagram" type="url" placeholder="https://instagram.com/username">
+      </div>
+
+      <div class="editor-field">
+        <label for="socialYoutube">YouTube</label>
+        <input id="socialYoutube" type="url" placeholder="https://youtube.com/@username">
+      </div>
+    </div>
+
+    <div class="publish-row">
+      <div>
+        <strong>Publish your portfolio</strong>
+        <p>Allow your profile to appear in Portopedia's public creator directory.</p>
+      </div>
+      <label class="publish-toggle">
+        <input type="checkbox" id="portfolioPublished" name="published">
+        <span>Public</span>
+      </label>
+    </div>
+
+    <button class="button editor-save" type="submit" id="savePortfolio">
+      Save profile <span>↗</span>
+    </button>
+  </form>
+
+  <section class="editor-panel projects-manager">
+    <div class="editor-panel-heading">
+      <span class="step-number">03</span>
+      <div>
+        <h3>Your projects</h3>
+        <p>Add up to 20 projects to show people what you can do.</p>
+      </div>
+    </div>
+
+    <form id="projectForm">
+      <input type="hidden" id="projectId">
+
+      <div class="editor-fields">
+        <div class="editor-field">
+          <label for="projectTitle">Project title</label>
+          <input id="projectTitle" maxlength="120"
+            placeholder="e.g. My first website" required>
+        </div>
+
+        <div class="editor-field">
+          <label for="projectCategory">Project category</label>
+          <input id="projectCategory" maxlength="60"
+            placeholder="e.g. Web development">
+        </div>
+
+        <div class="editor-field editor-field-full">
+          <label for="projectDescription">Description</label>
+          <textarea id="projectDescription" maxlength="2000"
+            rows="3" placeholder="What did you create?"></textarea>
+        </div>
+
+        <div class="editor-field">
+          <label for="projectUrl">Project link</label>
+          <input id="projectUrl" type="url"
+            placeholder="https://example.com">
+        </div>
+
+        <div class="editor-field">
+          <label for="projectImageUrl">Image URL</label>
+          <input id="projectImageUrl" type="url"
+            placeholder="https://example.com/image.jpg">
+          <small>Use a publicly accessible HTTPS image URL.</small>
+        </div>
+      </div>
+
+      <div class="project-form-actions">
+        <button class="button" id="saveProject" type="submit">
+          Add project <span>↗</span>
+        </button>
+        <button class="button button-small" id="cancelProjectEdit"
+          type="button" hidden>Cancel edit</button>
+      </div>
+    </form>
+
+    <div class="saved-projects" id="savedProjects">
+      <p>Your saved projects will appear here.</p>
+    </div>
+  </section>
+
+  <div class="editor-public-link" id="publicPortfolioLink" hidden>
+    Your public portfolio:
+    <a id="publicPortfolioUrl" href="#" target="_blank" rel="noopener noreferrer">
+      View portfolio ↗
+    </a>
+  </div>
+</section>
+
   </main>
 
   <footer class="site-footer">
