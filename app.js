@@ -75,30 +75,90 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================================
   // CREATOR SEARCH AND FILTERS
   // =========================================
-  function filterCreators() {
-    if (!creatorGrid) return;
 
-    const query = (searchInput?.value || "").trim().toLowerCase();
-    const cards = creatorGrid.querySelectorAll(".creator-card");
-    let visibleCount = 0;
+async function loadCreators() {
+  if (!creatorGrid) return;
 
-    cards.forEach((card) => {
-      const name = (card.dataset.name || "").toLowerCase();
-      const skills = (card.dataset.skills || "").toLowerCase();
-
-      const visibleBySearch = `${name} ${skills}`.includes(query);
-      const visibleByFilter =
-        activeFilter === "All" ||
-        skills.includes(activeFilter.toLowerCase());
-
-      const visible = visibleBySearch && visibleByFilter;
-      card.hidden = !visible;
-
-      if (visible) visibleCount += 1;
+  try {
+    const response = await fetch("/api/creators", {
+      credentials: "same-origin"
     });
 
-    if (emptyState) emptyState.hidden = visibleCount !== 0;
+    if (!response.ok) {
+      throw new Error("Could not load creators");
+    }
+
+    const data = await response.json();
+    const creators = Array.isArray(data)
+      ? data
+      : (data.creators || []);
+
+    creatorGrid.replaceChildren();
+
+    creators.forEach((creator) => {
+      const card = document.createElement("article");
+      card.className = "creator-card";
+
+      const name = creator.display_name || creator.username || "Creator";
+      const skills = Array.isArray(creator.skills)
+        ? creator.skills
+        : [];
+
+      card.dataset.name = name;
+      card.dataset.skills = skills.join(" ");
+      card.dataset.category = creator.category || "Other";
+
+      const heading = document.createElement("h3");
+      heading.textContent = name;
+
+      const headline = document.createElement("p");
+      headline.textContent = creator.headline || "Creator";
+
+      const category = document.createElement("p");
+      category.textContent = creator.category || "Other";
+
+      const skillText = document.createElement("p");
+      skillText.textContent = skills.length
+        ? skills.join(" · ")
+        : "No skills added yet";
+
+      card.append(heading, headline, category, skillText);
+      creatorGrid.appendChild(card);
+    });
+
+    filterCreators();
+  } catch (error) {
+    console.error("Creator list error:", error);
   }
+}
+
+function filterCreators() {
+  if (!creatorGrid) return;
+
+  const query = (searchInput?.value || "").trim().toLowerCase();
+  const cards = creatorGrid.querySelectorAll(".creator-card");
+  let visibleCount = 0;
+
+  cards.forEach((card) => {
+    const name = (card.dataset.name || "").toLowerCase();
+    const skills = (card.dataset.skills || "").toLowerCase();
+    const category = (card.dataset.category || "").toLowerCase();
+
+    const visibleBySearch = `${name} ${skills} ${category}`.includes(query);
+    const visibleByFilter =
+      activeFilter === "All" ||
+      category === activeFilter.toLowerCase() ||
+      skills.toLowerCase().includes(activeFilter.toLowerCase());
+
+    const visible = visibleBySearch && visibleByFilter;
+    card.hidden = !visible;
+
+    if (visible) visibleCount += 1;
+  });
+
+  if (emptyState) emptyState.hidden = visibleCount !== 0;
+}
+
 
   searchInput?.addEventListener("input", filterCreators);
 
