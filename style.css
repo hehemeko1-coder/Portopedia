@@ -2435,3 +2435,61 @@ body {
     transform: none;
   }
 }
+
+/* Portopedia dark mode */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #17191f;
+  --surface: #20232b;
+  --surface-raised: #292d37;
+  --border: #3b414e;
+  --text: #f3efe5;
+  --muted: #b2b5bf;
+  --accent: #8daaff;
+  --accent-light: #f0a06c;
+}
+
+:root[data-theme="dark"] body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+:root[data-theme="dark"] .public-project,
+:root[data-theme="dark"] .creator-card,
+:root[data-theme="dark"] .portfolio-preview,
+:root[data-theme="dark"] .account-dialog,
+:root[data-theme="dark"] dialog {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] textarea,
+:root[data-theme="dark"] select {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+:root[data-theme="dark"] input::placeholder,
+:root[data-theme="dark"] textarea::placeholder {
+  color: var(--muted);
+}
+
+:root[data-theme="dark"] .profile-skill,
+:root[data-theme="dark"] .profile-tag {
+  background: var(--surface-raised);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+:root[data-theme="dark"] .public-project-image {
+  background: var(--surface-raised);
+  border-color: var(--border);
+}
+
+:root[data-theme="dark"] .public-brand {
+  color: var(--text);
+}
+
