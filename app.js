@@ -96,8 +96,18 @@ async function loadCreators() {
     creatorGrid.replaceChildren();
 
     creators.forEach((creator) => {
-      const card = document.createElement("article");
-      card.className = "creator-card";
+const card = document.createElement("a");
+card.className = "creator-card";
+
+const slug = creator.slug || creator.username;
+
+if (slug) {
+  card.href = `creator.html?slug=${encodeURIComponent(slug)}`;
+}
+
+card.style.display = "block";
+card.style.color = "inherit";
+card.style.textDecoration = "none";
 
       const name = creator.display_name || creator.username || "Creator";
       const skills = Array.isArray(creator.skills)
