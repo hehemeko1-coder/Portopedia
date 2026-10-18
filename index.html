@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111110">
+  <meta name="description" content="Build your portfolio, showcase your work, and discover talented creators on Portopedia.">
+  <title>Portopedia — Your work, your world</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Portopedia home">
+      <span class="brand-mark">P</span>
+      <span>portopedia<span class="brand-period">.</span></span>
+    </a>
+
+    <button class="menu-toggle" id="menuToggle"
+      aria-label="Toggle navigation" aria-expanded="false">
+      ☰
+    </button>
+
+    <nav class="main-nav" id="mainNav">
+      <a href="#discover">Discover</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#featured">Featured work</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="sign-in-link" href="#get-started">Sign in</a>
+      <a class="button button-small" href="#get-started">Get started <span>↗</span></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">
+          <span class="status-dot"></span>
+          A home for people who create
+        </div>
+
+        <h1>Your work.<br>Your story.<br><span>Your world.</span></h1>
+
+        <p class="hero-description">
+          Build a portfolio that feels like you. Share what you make,
+          show what you can do, and discover people who inspire you.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button" href="#get-started">Build your portfolio <span>↗</span></a>
+          <a class="text-link" href="#discover">Explore creators <span>↓</span></a>
+        </div>
+
+        <div class="hero-note">
+          <span class="note-symbol">✳</span>
+          For designers, developers, photographers, writers and more.
+        </div>
+      </div>
+
+      <div class="hero-art" aria-label="Portfolio design preview">
+        <div class="art-orbit orbit-one"></div>
+        <div class="art-orbit orbit-two"></div>
+
+        <div class="portfolio-preview">
+          <div class="preview-topbar">
+            <span class="preview-dot"></span>
+            <span class="preview-dot"></span>
+            <span class="preview-dot"></span>
+            <span class="preview-label">PORTFOLIO / 001</span>
+          </div>
+
+          <div class="preview-content">
+            <div class="preview-avatar">A.</div>
+            <p class="preview-kicker">INDEPENDENT CREATIVE</p>
+            <h2>Making ideas<br>mean something.</h2>
+            <p class="preview-bio">
+              Designer, curious thinker, and collector of ideas.
+            </p>
+            <div class="preview-tags">
+              <span>Design</span>
+              <span>Art direction</span>
+              <span>Digital</span>
+            </div>
+          </div>
+
+          <div class="preview-footer">
+            <span>SELECTED WORK · 2026</span>
+            <span>↗</span>
+          </div>
+        </div>
+
+        <div class="floating-note note-top">
+          <span class="floating-icon">✳</span>
+          Made to stand out
+        </div>
+
+        <div class="floating-note note-bottom">
+          <span class="floating-icon">↗</span>
+          Your own little corner
+        </div>
+
+        <span class="art-index">PF—001</span>
+      </div>
+    </section>
+
+    <section class="category-strip" aria-label="Creative categories">
+      <span>GOOD WORK LIVES HERE</span>
+      <div class="category-list">
+        <span>✳ Design</span>
+        <span>⌘ Development</span>
+        <span>◉ Photography</span>
+        <span>↗ Writing</span>
+        <span>♫ Music</span>
+      </div>
+    </section>
+
+    <section class="section featured-section" id="featured">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">A LITTLE INSPIRATION</p>
+          <h2>Work worth a closer look<span>.</span></h2>
+          <p class="section-description">
+            Different minds. Different crafts. Work with a point of view.
+          </p>
+        </div>
+        <a class="text-link" href="#discover">Meet the creators <span>↗</span></a>
+      </div>
+
+      <div class="project-grid">
+        <article class="project-card project-card-orange">
+          <div class="project-art art-poster">
+            <div class="poster-circle"></div>
+            <span class="poster-word">FORM<br>FOLLOWS<br>FEELING.</span>
+            <span class="art-caption">STUDY 001 — 2026</span>
+          </div>
+          <div class="project-info">
+            <div>
+              <h3>Form & Feeling</h3>
+              <p>Visual identity · Graphic design</p>
+            </div>
+            <span class="project-arrow">↗</span>
+          </div>
+        </article>
+
+        <article class="project-card project-card-green">
+          <div class="project-art art-shapes">
+            <div class="shape shape-a"></div>
+            <div class="shape shape-b"></div>
+            <div class="shape shape-c"></div>
+            <span class="shape-label">A DIFFERENT<br>POINT OF VIEW</span>
+          </div>
+          <div class="project-info">
+            <div>
+              <h3>Objects in Motion</h3>
+              <p>Digital art · 3D exploration</p>
+            </div>
+            <span class="project-arrow">↗</span>
+          </div>
+        </article>
+
+        <article class="project-card project-card-purple">
+          <div class="project-art art-type">
+            <span class="type-small">INDEPENDENT MAGAZINE</span>
+            <span class="type-big">AFTER<br>HOURS</span>
+            <span class="type-bottom">ISSUE Nº 01 — CREATIVE CULTURE</span>
+          </div>
+          <div class="project-info">
+            <div>
+              <h3>After Hours Journal</h3>
+              <p>Editorial · Art direction</p>
+            </div>
+            <span class="project-arrow">↗</span>
+          </div>
+        </article>
+      </div>
+
+      <p class="demo-notice">
+        Visual concept previews — portfolio examples will become real
+        creator-submitted projects as the platform develops.
+      </p>
+    </section>
+
+    <section class="section discover-section" id="discover">
+      <div class="section-heading discover-heading">
+        <div>
+          <p class="section-kicker">THE PEOPLE BEHIND THE WORK</p>
+          <h2>Find your kind of creative<span>.</span></h2>
+          <p class="section-description">
+            Search by name, explore different skills, and find fresh perspectives.
+          </p>
+        </div>
+        <span class="section-count">CREATOR DIRECTORY / 001</span>
+      </div>
+
+      <div class="directory-controls">
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="creatorSearch" type="search"
+            placeholder="Search creators or skills..."
+            aria-label="Search creators or skills">
+          <kbd>/</kbd>
+        </label>
+
+        <div class="filter-list" id="creatorFilters" aria-label="Filter by skill">
+          <button class="filter-button active" data-filter="All" type="button">All creators</button>
+          <button class="filter-button" data-filter="Design" type="button">Design</button>
+          <button class="filter-button" data-filter="Development" type="button">Development</button>
+          <button class="filter-button" data-filter="Photography" type="button">Photography</button>
+          <button class="filter-button" data-filter="Writing" type="button">Writing</button>
+          <button class="filter-button" data-filter="Music" type="button">Music</button>
+        </div>
+      </div>
+
+      <div class="creator-grid" id="creatorGrid">
+        <article class="creator-card" data-name="Mika Tadesse" data-skills="Design Art direction Branding">
+          <div class="creator-card-top">
+            <div class="creator-avatar avatar-rust">MT</div>
+            <span class="creator-number">CREATOR / 001</span>
+          </div>
+          <h3>Mika Tadesse</h3>
+          <p class="creator-role">Brand & visual designer</p>
+          <p class="creator-bio">Building identities with character, meaning, and a little bit of edge.</p>
+          <div class="skill-tags"><span>Design</span><span>Branding</span></div>
+        </article>
+
+        <article class="creator-card" data-name="Daniel Bekele" data-skills="Development JavaScript Web">
+          <div class="creator-card-top">
+            <div class="creator-avatar avatar-blue">DB</div>
+            <span class="creator-number">CREATOR / 002</span>
+          </div>
+          <h3>Daniel Bekele</h3>
+          <p class="creator-role">Web developer</p>
+          <p class="creator-bio">Turning practical ideas into thoughtful, useful digital experiences.</p>
+          <div class="skill-tags"><span>Development</span><span>Web</span></div>
+        </article>
+
+        <article class="creator-card" data-name="Sara Alemu" data-skills="Photography Visual storytelling">
+          <div class="creator-card-top">
+            <div class="creator-avatar avatar-sand">SA</div>
+            <span class="creator-number">CREATOR / 003</span>
+          </div>
+          <h3>Sara Alemu</h3>
+          <p class="creator-role">Photographer</p>
+          <p class="creator-bio">Finding everyday stories in unexpected light, places, and people.</p>
+          <div class="skill-tags"><span>Photography</span><span>Visual stories</span></div>
+        </article>
+
+        <article class="creator-card" data-name="Rahel Tesfaye" data-skills="Writing Editorial Research">
+          <div class="creator-card-top">
+            <div class="creator-avatar avatar-lilac">RT</div>
+            <span class="creator-number">CREATOR / 004</span>
+          </div>
+          <h3>Rahel Tesfaye</h3>
+          <p class="creator-role">Writer & editor</p>
+          <p class="creator-bio">Exploring culture, technology, and the small details in everyday life.</p>
+          <div class="skill-tags"><span>Writing</span><span>Editorial</span></div>
+        </article>
+
+        <article class="creator-card" data-name="Yonas Girma" data-skills="Music Production Sound">
+          <div class="creator-card-top">
+            <div class="creator-avatar avatar-green">YG</div>
+            <span class="creator-number">CREATOR / 005</span>
+          </div>
+          <h3>Yonas Girma</h3>
+          <p class="creator-role">Music producer</p>
+          <p class="creator-bio">Making electronic sounds for late nights and new beginnings.</p>
+          <div class="skill-tags"><span>Music</span><span>Production</span></div>
+        </article>
+
+        <article class="creator-card" data-name="Liya Mekonnen" data-skills="Design Development UI UX">
+          <div class="creator-card-top">
+            <div class="creator-avatar avatar-pink">LM</div>
+            <span class="creator-number">CREATOR / 006</span>
+          </div>
+          <h3>Liya Mekonnen</h3>
+          <p class="creator-role">Product designer</p>
+          <p class="creator-bio">Making the complicated feel clear through design and curiosity.</p>
+          <div class="skill-tags"><span>Design</span><span>UI/UX</span></div>
+        </article>
+      </div>
+
+      <p class="empty-state" id="emptyState" hidden>
+        No matching creators. Try another name or skill.
+      </p>
+      <p class="demo-notice">
+        These are fictional demonstration profiles. Real creator accounts and database-backed
+        search will be added in later development phases.
+      </p>
+    </section>
+
+    <section class="how-section" id="how-it-works">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">NO CODE REQUIRED</p>
+          <h2>Three steps. Your own space<span>.</span></h2>
+        </div>
+      </div>
+
+      <div class="steps-grid">
+        <article class="step-card">
+          <span class="step-number">01</span>
+          <h3>Make it yours</h3>
+          <p>Add your story, skills, experience, and the work you're proud of.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">02</span>
+          <h3>Shape your portfolio</h3>
+          <p>Arrange your projects and choose a visual style that feels right.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">03</span>
+          <h3>Put it out there</h3>
+          <p>Publish your page and help people discover what you can do.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="final-cta" id="get-started">
+      <div class="cta-decoration" aria-hidden="true">P.</div>
+      <p class="section-kicker">YOUR NEXT CHAPTER STARTS HERE</p>
+      <h2>Put your work<br>on the map<span>.</span></h2>
+      <p>A good place to start. A better place to be discovered.</p>
+      <button class="button" id="getStartedButton" type="button">
+        Get started with Portopedia <span>↗</span>
+      </button>
+      <p class="cta-note" id="ctaMessage" aria-live="polite">
+        Account creation is coming in the next development phase.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="#">
+      <span class="brand-mark">P</span>
+      <span>portopedia<span class="brand-period">.</span></span>
+    </a>
+    <p>Your work deserves a place in the world.</p>
+    <span class="footer-copy">© 2026 Portopedia · Built for creative people.</span>
+  </footer>
+</body>
+</html>
