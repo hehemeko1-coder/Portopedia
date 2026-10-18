@@ -913,6 +913,6 @@ function filterCreators() {
     );
   });
 
-  filterCreators();
+   loadCreators();
   restoreSession();
 });
