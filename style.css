@@ -1340,3 +1340,160 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Portopedia account dialog */
+.account-dialog {
+  width: min(92vw, 460px);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 0;
+  border: 1px solid #393530;
+  border-radius: 18px;
+  background: #181715;
+  color: #f5f0e8;
+}
+
+.account-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(5px);
+}
+
+.account-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px 0;
+}
+
+.account-close {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #393530;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.account-dialog-content {
+  padding: 28px 28px 30px;
+}
+
+.account-dialog-content h2 {
+  margin: 8px 0;
+  font-size: clamp(27px, 6vw, 36px);
+  letter-spacing: -1.2px;
+}
+
+.account-dialog-content h2 span {
+  color: #d57a43;
+}
+
+.account-dialog-content > p {
+  line-height: 1.6;
+}
+
+.account-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin: 25px 0;
+  padding: 5px;
+  border: 1px solid #393530;
+  border-radius: 10px;
+}
+
+.account-tab {
+  padding: 11px 8px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #c0b9b0;
+  cursor: pointer;
+}
+
+.account-tab.active {
+  background: #d57a43;
+  color: #17130f;
+}
+
+.account-dialog form {
+  display: grid;
+  gap: 10px;
+}
+
+.account-dialog form[hidden] {
+  display: none;
+}
+
+.account-dialog form label {
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.account-dialog form input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 13px;
+  border: 1px solid #484139;
+  border-radius: 8px;
+  outline: none;
+  background: #22201d;
+  color: #fff;
+  font: inherit;
+}
+
+.account-dialog form input:focus {
+  border-color: #d57a43;
+  box-shadow: 0 0 0 2px rgba(213, 122, 67, 0.18);
+}
+
+.account-submit {
+  justify-content: center;
+  width: 100%;
+  margin-top: 14px;
+}
+
+.account-submit:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.account-message {
+  min-height: 24px;
+  margin: 14px 0 0;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.account-message[data-state="error"] {
+  color: #ff9b8e;
+}
+
+.account-message[data-state="success"] {
+  color: #9bd7a6;
+}
+
+.account-privacy {
+  margin: 12px 0 0;
+  color: #a9a197;
+  font-size: 12px;
+  text-align: center;
+}
+
+.signed-in-label {
+  color: inherit;
+  font-size: 14px;
+}
+
+@media (max-width: 520px) {
+  .account-dialog-content {
+    padding: 24px 20px;
+  }
+
+  .account-dialog-header {
+    padding-inline: 20px;
+  }
+}
