@@ -122,8 +122,8 @@ async function loadCreators() {
         ? skills.join(" · ")
         : "No skills added yet";
 
-      card.append(heading, headline, category, skillText);
-      creatorGrid.appendChild(card);
+card.append(heading, headline, category, skillText);
+creatorGrid.appendChild(card);
     });
 
     filterCreators();
