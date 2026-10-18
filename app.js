@@ -2,6 +2,9 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
+  // =========================================
+  // EXISTING HOMEPAGE ELEMENTS
+  // =========================================
   const searchInput = document.getElementById("creatorSearch");
   const creatorGrid = document.getElementById("creatorGrid");
   const filterContainer = document.getElementById("creatorFilters");
@@ -11,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const getStartedButton = document.getElementById("getStartedButton");
   const ctaMessage = document.getElementById("ctaMessage");
 
+  // =========================================
+  // ACCOUNT DIALOG
+  // =========================================
   const dialog = document.getElementById("accountDialog");
   const closeDialogButton = document.getElementById("closeAccountDialog");
   const registerTab = document.getElementById("showRegister");
@@ -22,10 +28,53 @@ document.addEventListener("DOMContentLoaded", () => {
   const accountDescription = document.getElementById("accountDescription");
   const accountMessage = document.getElementById("accountMessage");
 
+  // =========================================
+  // PORTFOLIO EDITOR ELEMENTS
+  // =========================================
+  const portfolioEditor = document.getElementById("portfolioEditor");
+  const portfolioForm = document.getElementById("portfolioForm");
+  const editorStatus = document.getElementById("editorStatus");
+  const backToHomeButton = document.getElementById("backToHome");
+  const savePortfolioButton = document.getElementById("savePortfolio");
+
+  const displayNameInput = document.getElementById("portfolioDisplayName");
+  const headlineInput = document.getElementById("portfolioHeadline");
+  const bioInput = document.getElementById("portfolioBio");
+  const categoryInput = document.getElementById("portfolioCategory");
+  const skillsInput = document.getElementById("portfolioSkills");
+  const publishedInput = document.getElementById("portfolioPublished");
+
+  const socialInputs = {
+    website: document.getElementById("socialWebsite"),
+    github: document.getElementById("socialGithub"),
+    linkedin: document.getElementById("socialLinkedin"),
+    instagram: document.getElementById("socialInstagram"),
+    youtube: document.getElementById("socialYoutube")
+  };
+
+  const projectForm = document.getElementById("projectForm");
+  const projectIdInput = document.getElementById("projectId");
+  const projectTitleInput = document.getElementById("projectTitle");
+  const projectCategoryInput = document.getElementById("projectCategory");
+  const projectDescriptionInput = document.getElementById("projectDescription");
+  const projectUrlInput = document.getElementById("projectUrl");
+  const projectImageUrlInput = document.getElementById("projectImageUrl");
+  const saveProjectButton = document.getElementById("saveProject");
+  const cancelProjectEditButton = document.getElementById("cancelProjectEdit");
+  const savedProjectsContainer = document.getElementById("savedProjects");
+
+  const publicPortfolioLink = document.getElementById("publicPortfolioLink");
+  const publicPortfolioUrl = document.getElementById("publicPortfolioUrl");
+
   let activeFilter = "All";
   let currentUser = null;
+  let currentPortfolio = null;
+  let savedProjects = [];
+  let isLoadingPortfolio = false;
 
-  // Creator search and skill filters.
+  // =========================================
+  // CREATOR SEARCH AND FILTERS
+  // =========================================
   function filterCreators() {
     if (!creatorGrid) return;
 
@@ -68,7 +117,9 @@ document.addEventListener("DOMContentLoaded", () => {
     filterCreators();
   });
 
-  // Mobile navigation.
+  // =========================================
+  // MOBILE NAVIGATION
+  // =========================================
   function closeMenu() {
     mainNav?.classList.remove("open");
     menuToggle?.setAttribute("aria-expanded", "false");
@@ -83,9 +134,55 @@ document.addEventListener("DOMContentLoaded", () => {
     link.addEventListener("click", closeMenu);
   });
 
-  // Account dialog.
-  function showMessage(message, isError = false) {
+  // =========================================
+  // API HELPER
+  // =========================================
+  async function apiRequest(endpoint, options = {}) {
+    let response;
+
+    try {
+      response = await fetch(endpoint, {
+        ...options,
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+          ...(options.headers || {})
+        }
+      });
+    } catch {
+      throw new Error(
+        "Could not connect to the server. Check your internet connection and try again."
+      );
+    }
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(data.error || "The request failed. Please try again.");
+    }
+
+    return data;
+  }
+
+  function setFormBusy(form, busy, busyText = "Please wait...") {
+    const button = form?.querySelector('button[type="submit"]');
+    if (!button) return;
+
+    if (!button.dataset.originalText) {
+      button.dataset.originalText = button.textContent.trim();
+    }
+
+    button.disabled = busy;
+    button.setAttribute("aria-busy", String(busy));
+    button.textContent = busy ? busyText : button.dataset.originalText;
+  }
+
+  // =========================================
+  // ACCOUNT DIALOG
+  // =========================================
+  function showAccountMessage(message, isError = false) {
     if (!accountMessage) return;
+
     accountMessage.textContent = message;
     accountMessage.dataset.state = isError ? "error" : "success";
   }
@@ -127,14 +224,13 @@ document.addEventListener("DOMContentLoaded", () => {
         : "Sign in to continue to your portfolio.";
     }
 
-    showMessage("");
+    showAccountMessage("");
   }
 
   function openAccountDialog(mode = "register") {
     if (!dialog) {
       if (ctaMessage) {
-        ctaMessage.textContent =
-          "The account form is missing. Please refresh the page.";
+        ctaMessage.textContent = "The account form is missing. Refresh the page and try again.";
       }
       return;
     }
@@ -185,51 +281,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (event.target === dialog) closeAccountDialog();
   });
 
-  // Send requests to the same server that serves this website.
-  async function apiRequest(endpoint, options = {}) {
-    let response;
-
-    try {
-      response = await fetch(endpoint, {
-        ...options,
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-          ...(options.headers || {})
-        }
-      });
-    } catch {
-      throw new Error(
-        "Could not connect to the server. Check your internet connection and try again."
-      );
-    }
-
-    const data = await response.json().catch(() => ({}));
-
-    if (!response.ok) {
-      throw new Error(data.error || "The request failed. Please try again.");
-    }
-
-    return data;
-  }
-
-  function setFormBusy(form, busy) {
-    const button = form?.querySelector('button[type="submit"]');
-    if (!button) return;
-
-    button.disabled = busy;
-    button.setAttribute("aria-busy", String(busy));
-
-    if (!button.dataset.originalText) {
-      button.dataset.originalText = button.textContent.trim();
-    }
-
-    button.textContent = busy
-      ? "Please wait..."
-      : button.dataset.originalText;
-  }
-
-  // Register a new account.
+  // =========================================
+  // REGISTER
+  // =========================================
   registerForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -239,7 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const password = String(formData.get("password") || "");
 
     if (!/^[a-zA-Z0-9_]{3,24}$/.test(username)) {
-      showMessage(
+      showAccountMessage(
         "Username must be 3–24 characters and contain only letters, numbers or underscores.",
         true
       );
@@ -247,12 +301,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (password.length < 8 || password.length > 128) {
-      showMessage("Password must be between 8 and 128 characters.", true);
+      showAccountMessage("Password must be between 8 and 128 characters.", true);
       return;
     }
 
     setFormBusy(registerForm, true);
-    showMessage("Creating your account...");
+    showAccountMessage("Creating your account...");
 
     try {
       const data = await apiRequest("/api/register", {
@@ -261,18 +315,24 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       currentUser = data.user;
-      showMessage(`Welcome to Portopedia, ${data.user.username}!`);
+      showAccountMessage(`Welcome to Portopedia, ${data.user.username}!`);
       updateHeaderForUser();
       renderAccountStatus();
-      setTimeout(closeAccountDialog, 900);
+
+      setTimeout(() => {
+        closeAccountDialog();
+        openPortfolioEditor();
+      }, 700);
     } catch (error) {
-      showMessage(error.message, true);
+      showAccountMessage(error.message, true);
     } finally {
       setFormBusy(registerForm, false);
     }
   });
 
-  // Sign in with username or email.
+  // =========================================
+  // LOGIN
+  // =========================================
   loginForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -281,12 +341,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const password = String(formData.get("password") || "");
 
     if (!identifier || !password) {
-      showMessage("Enter your username or email and password.", true);
+      showAccountMessage("Enter your username or email and password.", true);
       return;
     }
 
     setFormBusy(loginForm, true);
-    showMessage("Signing you in...");
+    showAccountMessage("Signing you in...");
 
     try {
       const data = await apiRequest("/api/login", {
@@ -295,23 +355,27 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       currentUser = data.user;
-      showMessage(`Welcome back, ${data.user.username}!`);
+      showAccountMessage(`Welcome back, ${data.user.username}!`);
       updateHeaderForUser();
       renderAccountStatus();
-      setTimeout(closeAccountDialog, 900);
+
+      setTimeout(() => {
+        closeAccountDialog();
+        openPortfolioEditor();
+      }, 700);
     } catch (error) {
-      showMessage(error.message, true);
+      showAccountMessage(error.message, true);
     } finally {
       setFormBusy(loginForm, false);
     }
   });
 
-  // Display the current account in the header.
+  // =========================================
+  // SIGNED-IN HEADER
+  // =========================================
   function updateHeaderForUser() {
     const actions = document.querySelector(".header-actions");
-    if (!actions) return;
-
-    if (!currentUser) return;
+    if (!actions || !currentUser) return;
 
     actions.replaceChildren();
 
@@ -319,14 +383,11 @@ document.addEventListener("DOMContentLoaded", () => {
     accountLabel.className = "signed-in-label";
     accountLabel.textContent = `Hi, ${currentUser.username}`;
 
-    const portfolioLink = document.createElement("a");
-    portfolioLink.className = "button button-small";
-    portfolioLink.href = "#get-started";
-    portfolioLink.textContent = "My portfolio ↗";
-    portfolioLink.addEventListener("click", (event) => {
-      event.preventDefault();
-      showPortfolioMessage();
-    });
+    const portfolioButton = document.createElement("button");
+    portfolioButton.className = "button button-small";
+    portfolioButton.type = "button";
+    portfolioButton.textContent = "My portfolio ↗";
+    portfolioButton.addEventListener("click", openPortfolioEditor);
 
     const logoutButton = document.createElement("button");
     logoutButton.className = "sign-in-link";
@@ -334,14 +395,14 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutButton.textContent = "Sign out";
     logoutButton.addEventListener("click", signOut);
 
-    actions.append(accountLabel, portfolioLink, logoutButton);
+    actions.append(accountLabel, portfolioButton, logoutButton);
   }
 
   async function signOut() {
     try {
       await apiRequest("/api/logout", { method: "POST" });
       currentUser = null;
-      location.reload();
+      window.location.reload();
     } catch (error) {
       window.alert(error.message);
     }
@@ -354,14 +415,399 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function showPortfolioMessage() {
-    openAccountDialog("login");
-    showMessage(
-      "Your account is active. The portfolio editor is the next feature we'll build."
-    );
+  // =========================================
+  // PORTFOLIO EDITOR
+  // =========================================
+  function setEditorStatus(message, state = "") {
+    if (!editorStatus) return;
+
+    editorStatus.textContent = message;
+    editorStatus.dataset.state = state;
   }
 
-  // Restore the signed-in state after a page refresh.
+  function openPortfolioEditor() {
+    if (!currentUser) {
+      openAccountDialog("login");
+      showAccountMessage("Sign in to open your portfolio.");
+      return;
+    }
+
+    if (!portfolioEditor) {
+      window.alert("The portfolio editor HTML is missing. Check index.html.");
+      return;
+    }
+
+    portfolioEditor.hidden = false;
+    portfolioEditor.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    loadPortfolio();
+  }
+
+  backToHomeButton?.addEventListener("click", () => {
+    if (portfolioEditor) portfolioEditor.hidden = true;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  function fillPortfolioForm(portfolio) {
+    if (!portfolioForm) return;
+
+    displayNameInput.value = portfolio.display_name || "";
+    headlineInput.value = portfolio.headline || "";
+    bioInput.value = portfolio.bio || "";
+    categoryInput.value = portfolio.category || "Other";
+
+    const skills = Array.isArray(portfolio.skills) ? portfolio.skills : [];
+    skillsInput.value = skills.join(", ");
+
+    const links = portfolio.social_links || {};
+    Object.entries(socialInputs).forEach(([key, input]) => {
+      if (input) input.value = links[key] || "";
+    });
+
+    publishedInput.checked = Boolean(portfolio.published);
+  }
+
+  function resetProjectForm() {
+    projectForm?.reset();
+
+    if (projectIdInput) projectIdInput.value = "";
+    if (saveProjectButton) {
+      saveProjectButton.textContent = "Add project ↗";
+      saveProjectButton.disabled = false;
+      saveProjectButton.dataset.originalText = "Add project ↗";
+    }
+
+    if (cancelProjectEditButton) cancelProjectEditButton.hidden = true;
+  }
+
+  async function loadPortfolio() {
+    if (isLoadingPortfolio || !currentUser) return;
+
+    isLoadingPortfolio = true;
+    setEditorStatus("Loading your saved portfolio...");
+
+    try {
+      const data = await apiRequest("/api/portfolio", { method: "GET" });
+
+      currentPortfolio = data.portfolio || {};
+      savedProjects = Array.isArray(data.projects) ? data.projects : [];
+
+      fillPortfolioForm(currentPortfolio);
+      renderProjects();
+      updatePublicPortfolioLink();
+
+      setEditorStatus("Your saved portfolio is loaded.", "success");
+    } catch (error) {
+      setEditorStatus(error.message, "error");
+    } finally {
+      isLoadingPortfolio = false;
+    }
+  }
+
+  function updatePublicPortfolioLink() {
+    if (!publicPortfolioLink || !publicPortfolioUrl) return;
+
+    if (currentPortfolio?.published) {
+      publicPortfolioLink.hidden = false;
+
+      // The public profile page is not yet implemented.
+      // Link to the creator directory until that page is built.
+      publicPortfolioUrl.href = "/#creators";
+      publicPortfolioUrl.textContent = "Browse creator directory ↗";
+    } else {
+      publicPortfolioLink.hidden = true;
+    }
+  }
+
+  // Save profile details to PostgreSQL through the existing API.
+  portfolioForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!currentUser) {
+      setEditorStatus("Please sign in again before saving.", "error");
+      return;
+    }
+
+    const social_links = {};
+
+    for (const [key, input] of Object.entries(socialInputs)) {
+      const value = (input?.value || "").trim();
+
+      if (value && !/^https:\/\//i.test(value)) {
+        setEditorStatus(
+          `The ${key} link must start with https://`,
+          "error"
+        );
+        input?.focus();
+        return;
+      }
+
+      social_links[key] = value;
+    }
+
+    const profile = {
+      display_name: displayNameInput.value.trim(),
+      headline: headlineInput.value.trim(),
+      bio: bioInput.value.trim(),
+      category: categoryInput.value,
+      skills: skillsInput.value
+        .split(",")
+        .map((skill) => skill.trim())
+        .filter(Boolean)
+        .slice(0, 30),
+      social_links,
+      published: publishedInput.checked
+    };
+
+    if (!profile.display_name) {
+      setEditorStatus("Please enter a display name.", "error");
+      displayNameInput.focus();
+      return;
+    }
+
+    setFormBusy(portfolioForm, true, "Saving profile...");
+    setEditorStatus("Saving your profile...");
+
+    try {
+      const data = await apiRequest("/api/portfolio", {
+        method: "PUT",
+        body: JSON.stringify(profile)
+      });
+
+      currentPortfolio = data.portfolio || {
+        ...currentPortfolio,
+        ...profile
+      };
+
+      // Use the values the user just saved even if the API
+      // returns a response without the portfolio object.
+      currentPortfolio = { ...currentPortfolio, ...profile };
+
+      updatePublicPortfolioLink();
+      setEditorStatus("Profile saved successfully.", "success");
+    } catch (error) {
+      setEditorStatus(error.message, "error");
+    } finally {
+      setFormBusy(portfolioForm, false);
+    }
+  });
+
+  // =========================================
+  // PROJECT LIST
+  // =========================================
+  function renderProjects() {
+    if (!savedProjectsContainer) return;
+
+    savedProjectsContainer.replaceChildren();
+
+    if (savedProjects.length === 0) {
+      const message = document.createElement("p");
+      message.textContent = "No projects yet. Add your first project above.";
+      savedProjectsContainer.append(message);
+      return;
+    }
+
+    savedProjects.forEach((project) => {
+      const card = document.createElement("article");
+      card.className = "saved-project-card";
+
+      const info = document.createElement("div");
+      info.className = "saved-project-info";
+
+      if (project.category) {
+        const category = document.createElement("span");
+        category.className = "saved-project-category";
+        category.textContent = project.category;
+        info.append(category);
+      }
+
+      const title = document.createElement("h4");
+      title.textContent = project.title || "Untitled project";
+      info.append(title);
+
+      if (project.description) {
+        const description = document.createElement("p");
+        description.textContent = project.description;
+        info.append(description);
+      }
+
+      if (project.project_url) {
+        const link = document.createElement("a");
+        link.href = project.project_url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Open project ↗";
+        link.style.color = "#e69a69";
+        link.style.fontSize = "13px";
+        info.append(link);
+      }
+
+      const actions = document.createElement("div");
+      actions.className = "saved-project-actions";
+
+      const editButton = document.createElement("button");
+      editButton.type = "button";
+      editButton.textContent = "Edit";
+      editButton.addEventListener("click", () => beginProjectEdit(project));
+
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.className = "delete-project";
+      deleteButton.textContent = "Delete";
+      deleteButton.addEventListener("click", () => deleteProject(project));
+
+      actions.append(editButton, deleteButton);
+      card.append(info, actions);
+      savedProjectsContainer.append(card);
+    });
+  }
+
+  function beginProjectEdit(project) {
+    projectIdInput.value = String(project.id);
+    projectTitleInput.value = project.title || "";
+    projectCategoryInput.value = project.category || "";
+    projectDescriptionInput.value = project.description || "";
+    projectUrlInput.value = project.project_url || "";
+    projectImageUrlInput.value = project.image_url || "";
+
+    saveProjectButton.textContent = "Save project changes ↗";
+    saveProjectButton.dataset.originalText = "Save project changes ↗";
+    cancelProjectEditButton.hidden = false;
+
+    projectForm.scrollIntoView({ behavior: "smooth", block: "center" });
+    projectTitleInput.focus();
+  }
+
+  cancelProjectEditButton?.addEventListener("click", resetProjectForm);
+
+  // =========================================
+  // ADD OR UPDATE A PROJECT
+  // =========================================
+  projectForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!currentUser) {
+      setEditorStatus("Please sign in again before managing projects.", "error");
+      return;
+    }
+
+    const title = projectTitleInput.value.trim();
+    const category = projectCategoryInput.value.trim();
+    const description = projectDescriptionInput.value.trim();
+    const project_url = projectUrlInput.value.trim();
+    const image_url = projectImageUrlInput.value.trim();
+    const projectId = projectIdInput.value.trim();
+
+    if (!title) {
+      setEditorStatus("Enter a title for your project.", "error");
+      projectTitleInput.focus();
+      return;
+    }
+
+    if (!projectId && savedProjects.length >= 20) {
+      setEditorStatus("You have reached the 20-project limit.", "error");
+      return;
+    }
+
+    for (const [label, value, input] of [
+      ["Project link", project_url, projectUrlInput],
+      ["Image URL", image_url, projectImageUrlInput]
+    ]) {
+      if (value && !/^https:\/\//i.test(value)) {
+        setEditorStatus(`${label} must start with https://`, "error");
+        input.focus();
+        return;
+      }
+    }
+
+    const payload = {
+      title,
+      category,
+      description,
+      project_url,
+      image_url
+    };
+
+    saveProjectButton.disabled = true;
+    saveProjectButton.textContent = projectId
+      ? "Saving changes..."
+      : "Adding project...";
+
+    try {
+      if (projectId) {
+        await apiRequest(`/api/projects/${encodeURIComponent(projectId)}`, {
+          method: "PUT",
+          body: JSON.stringify(payload)
+        });
+      } else {
+        await apiRequest("/api/projects", {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+      }
+
+      resetProjectForm();
+      await refreshProjects();
+      setEditorStatus(
+        projectId ? "Project updated successfully." : "Project added successfully.",
+        "success"
+      );
+    } catch (error) {
+      setEditorStatus(error.message, "error");
+    } finally {
+      saveProjectButton.disabled = false;
+      if (projectIdInput.value) {
+        saveProjectButton.textContent = "Save project changes ↗";
+      } else {
+        saveProjectButton.textContent = "Add project ↗";
+      }
+    }
+  });
+
+  async function refreshProjects() {
+    const data = await apiRequest("/api/portfolio", { method: "GET" });
+    currentPortfolio = data.portfolio || currentPortfolio;
+    savedProjects = Array.isArray(data.projects) ? data.projects : [];
+    renderProjects();
+    updatePublicPortfolioLink();
+  }
+
+  // =========================================
+  // DELETE A PROJECT
+  // =========================================
+  async function deleteProject(project) {
+    const confirmed = window.confirm(
+      `Delete "${project.title}"? This cannot be undone.`
+    );
+
+    if (!confirmed) return;
+
+    setEditorStatus(`Deleting "${project.title}"...`);
+
+    try {
+      await apiRequest(
+        `/api/projects/${encodeURIComponent(String(project.id))}`,
+        { method: "DELETE" }
+      );
+
+      savedProjects = savedProjects.filter(
+        (item) => String(item.id) !== String(project.id)
+      );
+
+      if (String(projectIdInput.value) === String(project.id)) {
+        resetProjectForm();
+      }
+
+      renderProjects();
+      setEditorStatus("Project deleted.", "success");
+    } catch (error) {
+      setEditorStatus(error.message, "error");
+    }
+  }
+
+  // =========================================
+  // RESTORE SESSION AFTER REFRESH
+  // =========================================
   async function restoreSession() {
     try {
       const data = await apiRequest("/api/me", { method: "GET" });
@@ -376,6 +822,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // =========================================
+  // KEYBOARD SHORTCUTS
+  // =========================================
   document.addEventListener("keydown", (event) => {
     const target = event.target;
     const typing =
@@ -394,7 +843,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Initialize accessibility and filters.
+  // =========================================
+  // INITIALIZE
+  // =========================================
   filterContainer?.querySelectorAll("[data-filter]").forEach((button) => {
     button.setAttribute(
       "aria-pressed",
